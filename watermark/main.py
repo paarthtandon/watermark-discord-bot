@@ -32,8 +32,10 @@ def process_image(url):
     watermark = Image.open('seguis.jpg').convert('RGBA')
     width, height = original.size
     mark_width, mark_height = watermark.size
+    
+    smaller = height if height < width else width
 
-    new_width = int(width / 8)
+    new_width = int(smaller / 8)
     percent = (new_width / float(mark_width))
     new_height = int(float(mark_height) * float(percent))
     watermark = watermark.resize((new_width, new_height), PIL.Image.ANTIALIAS)
@@ -43,7 +45,7 @@ def process_image(url):
 
     trans = Image.new('RGBA', (width, height), (0,0,0,0))
     trans.paste(original, (0,0))
-    trans.paste(watermark, (int(width/16),int(height/16)), mask=watermark)
+    trans.paste(watermark, (int(smaller/16),int(smaller/16)), mask=watermark)
     trans.save('./images/out.png')
 
     delete_file('./images/temp.jpg')
