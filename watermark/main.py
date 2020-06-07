@@ -27,19 +27,19 @@ def process_image(url):
     time.sleep(2)
     with open('./images/temp.jpg', 'wb') as handler:
         handler.write(img_data)
-    
+
     original = Image.open('./images/temp.jpg').convert('RGBA')
     watermark = Image.open('seguis.jpg').convert('RGBA')
     width, height = original.size
     mark_width, mark_height = watermark.size
-    
+
     smaller = height if height < width else width
 
     new_width = int(smaller / 8)
     percent = (new_width / float(mark_width))
     new_height = int(float(mark_height) * float(percent))
     watermark = watermark.resize((new_width, new_height), PIL.Image.ANTIALIAS)
-    
+
     watermark.putalpha(100)
     watermark = mask_circle_transparent(watermark)
 
@@ -63,7 +63,7 @@ class MyClient(discord.Client):
             process_image(message.attachments[0].url)
             f = discord.File('./images/out.png')
             await message.channel.send(content=('Sent by ' + message.author.display_name),file=f)
-            await message.delete()    
+            await message.delete()
             delete_file('./images/out.png')
 
 client = MyClient()
