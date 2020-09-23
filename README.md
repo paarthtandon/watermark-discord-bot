@@ -1,2 +1,3 @@
-# discord-bots
-Repo used to store my silly discord bots.
+# Watermark Bot
+
+This bot watermarks any image that is sent in a discord channel.
